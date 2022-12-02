@@ -11,6 +11,7 @@ dotenv.config();
 
 //middlewares
 app.use(express.json());
+app.use(express.urlencoded());
 app.use(morgan('dev'));
 
 // Initialize the sheet - doc ID is the long id in the sheets URL
