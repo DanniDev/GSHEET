@@ -42,7 +42,8 @@ const addRow = async () => {
 	const userRow = await userListSheet.addRow(newUser);
 	console.log(userRow);
 };
-console.log(userListSheet);
+// const rows = await userListSheet.getRows();
+// console.log(rows);
 
 // addRow();
 
