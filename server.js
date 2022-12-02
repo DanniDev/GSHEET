@@ -53,6 +53,12 @@ app.get('/', (req, res) =>
 	)
 );
 
+app.post('/saved-list', (req, res) => {
+	console.log('received request from softr');
+	const body = req.body;
+	console.log(body);
+});
+
 app.listen(PORT, () =>
 	console.log(
 		`Server running on port ${PORT} in ${process.env.NODE_ENV} mode...`
