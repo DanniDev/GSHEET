@@ -59,6 +59,7 @@ app.post('/saved-list', (req, res) => {
 	console.log('received request from softr');
 	const body = req.body;
 	console.log(body);
+	return res.end();
 });
 
 app.listen(PORT, () =>
