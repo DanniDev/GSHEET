@@ -42,8 +42,9 @@ const addRow = async () => {
 	const userRow = await userListSheet.addRow(newUser);
 	console.log(userRow);
 };
+console.log(userListSheet);
 
-addRow();
+// addRow();
 
 const PORT = process.env.PORT || 5000;
 
