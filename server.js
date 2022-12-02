@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import fs from 'fs';
+import cors from 'cors';
 
 const app = express();
 
@@ -11,7 +12,7 @@ dotenv.config();
 
 //middlewares
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use(cors());
 
