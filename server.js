@@ -13,6 +13,7 @@ dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(morgan('dev'));
+app.use(cors());
 
 // Initialize the sheet - doc ID is the long id in the sheets URL
 const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID);
