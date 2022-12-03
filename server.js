@@ -36,6 +36,8 @@ const userListSheet = doc.sheetsById[653500459];
 const savedListsSheet = doc.sheetsById[2043897244];
 const mainListSheet = doc.sheetsById[420019327];
 
+const currentUserID = 'D3ubengdrUA4DRxHsXQWNN';
+
 const addRow = async () => {
 	const newUser = {
 		Email: 'dan@gmail.com',
@@ -52,16 +54,14 @@ const addRow = async () => {
 
 const PORT = process.env.PORT || 5000;
 
-app.get('/', (req, res) =>
-	res.send(
-		'<h1 style="padding: 50px 20px; text-align: center">G-Sheet is connected to Softr</h1>'
-	)
-);
+app.get('*', function (req, res) {
+	return res.redirect('https://www.google.com/');
+});
 
 app.post('/saved-list', (req, res) => {
-	const { listRecordId } = req.body;
+	const { onMainListUserId, listRecordId } = req.body;
 	console.log('received request from softr');
-	console.log('Saved List Record ID => ', listRecordId);
+	console.log('Saved List Record ID => ', mainUserRecId, listRecordId);
 
 	return res.status(200).json({ success: 'success' });
 });
