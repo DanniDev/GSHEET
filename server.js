@@ -61,13 +61,12 @@ app.post('/saved-list', async (req, res) => {
 					//Update match rec field
 					await rows[i].save();
 				}
-				return;
+
+				console.log('MATCH USER FIELD UPDATED SUCCESSFULLY!');
+
+				return res.status(200).json({ success: 'success' });
 			}
 		}
-
-		console.log('MATCH USER FIELD UPDATED SUCCESSFULLY!');
-
-		return res.status(200).json({ success: 'success' });
 	} catch (error) {
 		console.log(error.message);
 		return res.status(500).json({
