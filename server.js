@@ -29,41 +29,51 @@ await doc.useServiceAccountAuth({
 	private_key: CREDENTIALS.private_key,
 });
 
-await doc.loadInfo(); // loads document properties and worksheets
-
-// work sheets
-const userListSheet = doc.sheetsById[653500459];
-const savedListsSheet = doc.sheetsById[2043897244];
-const mainListSheet = doc.sheetsById[420019327];
-
-const currentUserID = 'D3ubengdrUA4DRxHsXQWNN';
-
-const addRow = async () => {
-	const newUser = {
-		Email: 'dan@gmail.com',
-		Name: 'Daniel',
-		'User Rec ID': '1234',
-	};
-	const userRow = await userListSheet.addRow(newUser);
-	console.log(userRow);
-};
-// const rows = await userListSheet.getRows();
-// console.log(rows);
-
-// addRow();
-
 const PORT = process.env.PORT || 5000;
 
 app.get('*', function (req, res) {
 	return res.redirect('https://www.google.com/');
 });
 
-app.post('/saved-list', (req, res) => {
-	const { onMainListUserId, savedListId } = req.body;
+app.post('/saved-list', async (req, res) => {
 	console.log('received request from softr');
-	console.log('Saved List Record ID => ', onMainListUserId, savedListId);
+	const { onMainListUserId, savedListId } = req.body;
 
-	return res.status(200).json({ success: 'success' });
+	// loads document properties and worksheets
+	await doc.loadInfo();
+
+	// work sheets
+	const userListSheet = doc.sheetsById[653500459];
+	const savedListsSheet = doc.sheetsById[2043897244];
+	const mainListSheet = doc.sheetsById[420019327];
+
+	try {
+		let rows = await mainListSheet.getRows();
+
+		for (let i = 0; i < rows.length; i++) {
+			if (onMainListUserId === rows[i]['Record ID']) {
+				// Row found
+				let userRow = rows[i];
+				if (userRow['Match Saved List Record ID'] === '') {
+					console.log('MATCH RECORD FIELD EMPTY');
+
+					rows[i]['Match Saved List Record ID'] = savedListId;
+					//Update match rec field
+					await rows[i].save();
+				}
+				return;
+			}
+		}
+
+		console.log('MATCH USER FIELD UPDATED SUCCESSFULLY!');
+
+		return res.status(200).json({ success: 'success' });
+	} catch (error) {
+		console.log(error.message);
+		return res.status(500).json({
+			error: 'Something went wrong while saving to list',
+		});
+	}
 });
 
 app.listen(PORT, () =>
