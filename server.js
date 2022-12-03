@@ -59,9 +59,9 @@ app.get('*', function (req, res) {
 });
 
 app.post('/saved-list', (req, res) => {
-	const { onMainListUserId, listRecordId } = req.body;
+	const { onMainListUserId, savedListId } = req.body;
 	console.log('received request from softr');
-	console.log('Saved List Record ID => ', mainUserRecId, listRecordId);
+	console.log('Saved List Record ID => ', onMainListUserId, savedListId);
 
 	return res.status(200).json({ success: 'success' });
 });
