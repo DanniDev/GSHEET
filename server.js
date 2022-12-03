@@ -59,10 +59,11 @@ app.get('/', (req, res) =>
 );
 
 app.post('/saved-list', (req, res) => {
+	const { listRecordId } = req.body;
 	console.log('received request from softr');
-	const body = req.body;
-	console.log(body);
-	res.status(200).json({ success: 'success' });
+	console.log('Saved List Record ID => ', listRecordId);
+
+	return res.status(200).json({ success: 'success' });
 });
 
 app.listen(PORT, () =>
