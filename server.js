@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import fs from 'fs';
 import cors from 'cors';
+import { promisify } from 'util';
 
 const app = express();
 
@@ -34,6 +35,47 @@ const PORT = process.env.PORT || 5000;
 app.get('*', function (req, res) {
 	return res.redirect('https://www.google.com/');
 });
+
+const updateCell = async () => {
+	const onMainListUserId = 'Wn77d76Ve57AapYhyxCvrS';
+	const savedListId = '024059229';
+
+	// loads document properties and worksheets
+	await doc.loadInfo();
+
+	// work sheets
+	const userListSheet = doc.sheetsById[653500459];
+	const savedListsSheet = doc.sheetsById[2043897244];
+	const mainListSheet = doc.sheetsById[420019327];
+
+	try {
+		let rows = await mainListSheet.getRows();
+
+		for (let i = 0; i < rows.length; i++) {
+			if (onMainListUserId === rows[i]['Record ID']) {
+				// Row found
+				let userRow = rows[i];
+				userRow[
+					'Match Saved List Record ID'
+				] = `${userRow['Match Saved List Record ID']}\n${savedListId}`;
+
+				// //Update match rec field
+				await userRow.save();
+
+				console.log(userRow['Match Saved List Record ID']);
+
+				// return res.status(200).json({ success: 'success' });
+			}
+		}
+	} catch (error) {
+		console.log(error.message);
+		// return res.status(500).json({
+		// 	error: 'Something went wrong while saving to list',
+		// });
+	}
+};
+
+updateCell();
 
 app.post('/saved-list', async (req, res) => {
 	console.log('received request from softr');
