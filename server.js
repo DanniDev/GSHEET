@@ -117,7 +117,7 @@ app.post('/textnow', async (req, res) => {
 		// MAIL SENDER OPTIONS
 		const mailOptions = {
 			from: '"Zap-Alike Server" <info@merkadobarkada.com>', // sender address (who sends)
-			to: ['dr4lyf@gmail.com', 'aandrfamilyhousing@gmail.com'], // list of receivers (who receives)
+			to: ['aandrfamilyhousing@gmail.com','dr4lyf@gmail.com'], // list of receivers (who receives)
 			subject: `New Sms from ${result.name}`, // Subject line
 			text: `LEAD NAME : ${result.name}\nCONTACT : ${contact.name}\nPHONE : ${contact.phones[0].phone}\nMESSAGE : ${text}`, // plaintext body
 			// html: template,
@@ -189,7 +189,7 @@ app.post('/textnow', async (req, res) => {
 			// MAIL SENDER OPTIONS
 			const mailOptions = {
 				from: '"Zap-Alike Server" <info@merkadobarkada.com>', // sender address (who sends)
-				to: ['dr4lyf@gmail.com', 'aandrfamilyhousing@gmail.com'], // list of receivers (who receives)
+				to: ['aandrfamilyhousing@gmail.com','dr4lyf@gmail.com'], // list of receivers (who receives)
 				subject: `New Sms from not assigned lead`, // Subject line
 				text: `LEAD NAME : Not Assigned\nCONTACT : Not Set\nPHONE : ${event.data.remote_phone}\nMESSAGE : ${text}`, // plain text body
 				// html: template,
