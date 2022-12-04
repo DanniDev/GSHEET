@@ -17,8 +17,8 @@ app.use(morgan('dev'));
 
 const PORT = process.env.PORT || 5000;
 
-app.get('*', function (req, res) {
-	return res.redirect('https://www.google.com/');
+app.get('/', function (req, res) {
+	return res.send('Close connected to server!');
 });
 
 // RECEIVED CLOSE CRM POST WEBHOOK REQUEST
