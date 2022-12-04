@@ -112,7 +112,7 @@ app.post('/textnow', async (req, res) => {
 				user: 'info@merkadobarkada.com', // your domain email address
 				pass: process.env.USER_PASS, // your password
 			},
-		});
+		}); 
 
 		// MAIL SENDER OPTIONS
 		const mailOptions = {
