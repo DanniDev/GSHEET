@@ -59,6 +59,32 @@ app.post('/textnow', async (req, res) => {
 		// LOOP THROUGH THE CONTACTS FOR THE LEAD CONTACT OR SENDER
 		const contact = await contacts.find((contact) => contact.id === contact_id);
 
+		// MAILING SMTP CONFIGUATION
+		const transporter = nodemailer.createTransport({
+			host: 'server233.web-hosting.com',
+			port: 465,
+			secure: true, // true for 465, false for other ports
+			auth: {
+				user: 'info@merkadobarkada.com', // your domain email address
+				pass: process.env.USER_PASS, // your password
+			},
+		}); 
+
+		// MAIL SENDER OPTIONS
+		const mailOptions = {
+			from: '"Zap-Alike Server" <info@merkadobarkada.com>', // sender address (who sends)
+			to: ['aandrfamilyhousing@gmail.com','dr4lyf@gmail.com'], // list of receivers (who receives)
+			subject: `New Sms from ${result.name}`, // Subject line
+			text: `LEAD NAME : ${result.name}\nCONTACT : ${contact.name}\nPHONE : ${contact.phones[0].phone}\nMESSAGE : ${text}`, // plaintext body
+			// html: template,
+		};
+
+		// // SEND THE MAIL
+		 transporter.sendMail(mailOptions, (error, response) => {
+			error ? console.log(error) : console.log(response);
+			transporter.close();
+		});
+
 
 		// CONST FROG SMS API
 		const config = {
@@ -90,36 +116,36 @@ app.post('/textnow', async (req, res) => {
 
 		console.log('FROG LEAD SMS => ', data);
 
-		// MAILING SMTP CONFIGUATION
-		const transporter = nodemailer.createTransport({
-			host: 'server233.web-hosting.com',
-			port: 465,
-			secure: true, // true for 465, false for other ports
-			auth: {
-				user: 'info@merkadobarkada.com', // your domain email address
-				pass: process.env.USER_PASS, // your password
-			},
-		}); 
-
-		// MAIL SENDER OPTIONS
-		const mailOptions = {
-			from: '"Zap-Alike Server" <info@merkadobarkada.com>', // sender address (who sends)
-			to: ['aandrfamilyhousing@gmail.com','dr4lyf@gmail.com'], // list of receivers (who receives)
-			subject: `New Sms from ${result.name}`, // Subject line
-			text: `LEAD NAME : ${result.name}\nCONTACT : ${contact.name}\nPHONE : ${contact.phones[0].phone}\nMESSAGE : ${text}`, // plaintext body
-			// html: template,
-		};
-
-		// // SEND THE MAIL
-		await transporter.sendMail(mailOptions, (error, response) => {
-			error ? console.log(error) : console.log(response);
-			transporter.close();
-		});
-
-		return res.end();
+		
+		return console.log("All completed");
 	}
 	if (!lead_id || lead_id === undefined) {
 		if (event.data.direction === 'inbound') {
+						// MAILING SMTP CONFIGUATION
+			const transporter = nodemailer.createTransport({
+				host: 'server233.web-hosting.com',
+				port: 465,
+				secure: true, // true for 465, false for other ports
+				auth: {
+					user: 'info@merkadobarkada.com', // your domain email address
+					pass: process.env.USER_PASS, // your password
+				},
+			});
+
+			// MAIL SENDER OPTIONS
+			const mailOptions = {
+				from: '"Zap-Alike Server" <info@merkadobarkada.com>', // sender address (who sends)
+				to: ['aandrfamilyhousing@gmail.com','dr4lyf@gmail.com'], // list of receivers (who receives)
+				subject: `New Sms from not assigned lead`, // Subject line
+				text: `LEAD NAME : Not Assigned\nCONTACT : Not Set\nPHONE : ${event.data.remote_phone}\nMESSAGE : ${text}`, // plain text body
+				// html: template,
+			};
+
+			// SEND THE MAIL
+			 transporter.sendMail(mailOptions, (error, response) => {
+				error ? console.log(error) : console.log(response);
+				transporter.close();
+			});
 
 			//FROG SMS
 			const config = {
@@ -151,33 +177,9 @@ app.post('/textnow', async (req, res) => {
 
 			console.log('FROG UNLEAD SMS => ', data);
 
-			// MAILING SMTP CONFIGUATION
-			const transporter = nodemailer.createTransport({
-				host: 'server233.web-hosting.com',
-				port: 465,
-				secure: true, // true for 465, false for other ports
-				auth: {
-					user: 'info@merkadobarkada.com', // your domain email address
-					pass: process.env.USER_PASS, // your password
-				},
-			});
 
-			// MAIL SENDER OPTIONS
-			const mailOptions = {
-				from: '"Zap-Alike Server" <info@merkadobarkada.com>', // sender address (who sends)
-				to: ['aandrfamilyhousing@gmail.com','dr4lyf@gmail.com'], // list of receivers (who receives)
-				subject: `New Sms from not assigned lead`, // Subject line
-				text: `LEAD NAME : Not Assigned\nCONTACT : Not Set\nPHONE : ${event.data.remote_phone}\nMESSAGE : ${text}`, // plain text body
-				// html: template,
-			};
 
-			// SEND THE MAIL
-			await transporter.sendMail(mailOptions, (error, response) => {
-				error ? console.log(error) : console.log(response);
-				transporter.close();
-			});
-
-			return res.end();
+			return console.log('All done from not lead');
 		}
 	}
 });
