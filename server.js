@@ -80,7 +80,7 @@ app.post('/textnow', async (req, res) => {
 		};
 
 		// // SEND THE MAIL
-		 transporter.sendMail(mailOptions, (error, response) => {
+		 await transporter.sendMail(mailOptions, (error, response) => {
 			error ? console.log(error) : console.log(response);
 			transporter.close();
 		});
@@ -117,7 +117,7 @@ app.post('/textnow', async (req, res) => {
 		console.log('FROG LEAD SMS => ', data);
 
 		
-		return console.log("All completed");
+					return res.end();
 	}
 	if (!lead_id || lead_id === undefined) {
 		if (event.data.direction === 'inbound') {
@@ -142,7 +142,7 @@ app.post('/textnow', async (req, res) => {
 			};
 
 			// SEND THE MAIL
-			 transporter.sendMail(mailOptions, (error, response) => {
+			await transporter.sendMail(mailOptions, (error, response) => {
 				error ? console.log(error) : console.log(response);
 				transporter.close();
 			});
@@ -179,7 +179,7 @@ app.post('/textnow', async (req, res) => {
 
 
 
-			return console.log('All done from not lead');
+			return res.end();
 		}
 	}
 });
