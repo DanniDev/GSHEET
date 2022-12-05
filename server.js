@@ -59,19 +59,6 @@ app.post('/textnow', async (req, res) => {
 		// LOOP THROUGH THE CONTACTS FOR THE LEAD CONTACT OR SENDER
 		const contact = await contacts.find((contact) => contact.id === contact_id);
 
-		// FORWARD LEAD TEXT TO CLIENT AS SMS
-		// const config = {
-		// 	headers: {
-		// 		'Content-Type': 'application/json',
-		// 	},
-		// };
-
-		// const { data } = await axios.get(
-		// 	`https://sms.arkesel.com/sms/api?action=send-sms&api_key=${process.env.SMS_KEY}&to=17702035144&from=LEAD&sms=LEAD NAME : ${result.name}%0aCONTACT : ${contact.name}%0aPHONE : ${contact.phones[0].phone}%0aMESSAGE : ${text}`,
-		// 	config
-		// );
-
-		// console.log('LEAD ARKESEL SMS => ', data);
 
 		// CONST FROG SMS API
 		const config = {
@@ -133,17 +120,6 @@ app.post('/textnow', async (req, res) => {
 	}
 	if (!lead_id || lead_id === undefined) {
 		if (event.data.direction === 'inbound') {
-			// FORWARD LEAD TEXT TO CLIENT AS SMS
-			// const config = {
-			// 	headers: {
-			// 		'Content-Type': 'application/json',
-			// 	},
-			// };
-
-			// const { data } = await axios.get(
-			// 	`https://sms.arkesel.com/sms/api?action=send-sms&api_key=${process.env.SMS_KEY}&to=17702035144&from=LEAD&sms=LEAD NAME : Not Assigned%0aCONTACT : Not Set%0aPHONE : ${event.data.remote_phone}%0aMESSAGE : ${text}`,
-			// 	config
-			// );
 
 			//FROG SMS
 			const config = {
